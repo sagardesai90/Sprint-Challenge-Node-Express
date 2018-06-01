@@ -81,5 +81,34 @@ server.get('/api/actions/:id', (req, res) => {
     }
 })
 
+//POST FOR PROJECTS
+server.post('/api/projects', (req, res) => {
+    let {name, description} = req.body
+    console.log(name, description)
+    if (name === undefined || description === undefined){
+        res.status(400).json({error: "Please provide both name and/or description."})
+    }
+    project
+    .insert({name, description})
+    .then(result => {
+        res.json(result)
+    })
+    .catch(err => {
+        res.status(500).json({error: "A server side error has occurred, please try again."})
+    })
+})
+
+//POST FOR ACTIONS
+server.post('/api/actions', (req, res) => {
+    let {notes, description} = req.body
+    action
+    .insert({notes: notes, description: description})
+    .then(result => {
+        res.json(result)
+    })
+    .catch(err => {
+        res.status(500).json({error: "A server side error has occurred, please try again."})
+    })
+})
 
 server.listen(port, () => console.log(`Server Running on Port ${port}`));
