@@ -111,4 +111,77 @@ server.post('/api/actions', (req, res) => {
     })
 })
 
+//DELETE FOR PROJECTS
+server.delete('/api/projects/:id', (req, res) => {
+    let {id} = req.params
+    console.log(id)
+    project
+    .get(id)
+    .then(result => {
+        project
+            .remove(id)
+            .then(count => {
+                res.json(result)
+            })
+            .catch(err => {
+                res.status(500).json({error: "A server side error has occurred, but you can try again later."})
+            })
+    })
+    .catch(err => {
+        res.status(500).json({error: "A server side error has occurred, but you can try again later."})
+    })
+})
+
+//DELETE FOR ACTIONS
+server.delete('/api/actions/:id', (req, res) => {
+    let{id} = req.params
+    console.log(id)
+    action
+    .get(id)
+    .then(result => {
+        project
+        .remove(id)
+        .then(count => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.status(500).json({error: "A server side error has occurred, but you can try again later."})
+        })
+    })
+    .catch(err => {
+        res.status(500).json({error: "A server side error has occurred, but you can try again later."})
+    })
+})
+
+//PUT FOR PROJECTS
+server.put('/api/projects/:id', (req, res) => {
+    let {name, description, completed} = req.body
+    let {id} = req.params
+    completed === undefined ? completed = false : completed
+    project
+        .update(id, {name: name, description: description, completed: completed})
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.status(500).json({error: "A server side error has occurred, but you can try again later."})
+        })
+})
+
+//PUT FOR ACTIONS
+server.put('api/projects/:id', (req, res) => {
+    let {notes, description, completed} = req.body
+    let {id} = req.params
+    completed === undefined ? completed = false : completed
+    action
+        .update(id, {notes: notes, description: description, completed: completed})
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.status(500).json({error: "A server side error has occurred, but you can try again later."})
+        })
+})
+
+
 server.listen(port, () => console.log(`Server Running on Port ${port}`));
